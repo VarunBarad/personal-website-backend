@@ -14,6 +14,11 @@ const contactMessageSchema = new Schema({
         type: String,
         required: true
     },
+    incomingDate: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
     processed: {
         type: Boolean,
         required: true,

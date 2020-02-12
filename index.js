@@ -41,4 +41,32 @@ app.post('/contact', function (request, response) {
     });
 });
 
+app.get('/messages/unread', function (request, response) {
+    const messageModel = mongooseModels.contactMessageModel;
+
+    messageModel.find({processed: false}, function (error, unreadMessages) {
+        response.json(unreadMessages.map(message => ({
+            "id": message._id,
+            "name": message.name,
+            "email": message.email,
+            "message": message.message,
+            "timestamp": message.incomingDate
+        })));
+    });
+});
+
+app.get('/messages/read', function (request, response) {
+    const messageModel = mongooseModels.contactMessageModel;
+
+    messageModel.find({processed: true}, function (error, unreadMessages) {
+        response.json(unreadMessages.map(message => ({
+            "id": message._id,
+            "name": message.name,
+            "email": message.email,
+            "message": message.message,
+            "timestamp": message.incomingDate
+        })));
+    });
+});
+
 app.listen(process.env.PORT);
